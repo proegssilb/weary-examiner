@@ -1,32 +1,39 @@
 FORMAT: 1A
 
 # Weary Examiner
-Notes API is a *short texts saving* service similar to its physical paper presence on your table.
+This documentation describes the HTTP API available in the Weary Examiner project.
 
-# Group Notes
-Notes related resources of the **Notes API**
+# Group Sessions
+Lists and creates Debug Sessions.
 
-## Notes Collection [/notes]
-### List all Notes [GET]
+## Session Collection [/session]
+
+### List all Sessions [GET]
 + Response 200 (application/json)
 
         [{
-          "id": 1, "title": "Jogging in park"
+          "id": 1, "created": "11/05/2014 13:48:27"
         }, {
           "id": 2, "title": "Pick-up posters from post-office"
         }]
 
-### Create a Note [POST]
+### Create a Session [POST]
 + Request (application/json)
 
-        { "title": "Buy cheese and bread for breakfast." }
+    + Header
+        
+            Bearer: a83e4586faed9348df9238
+    
+    + Body
+
+            { "created": "11/23/2014 15:12:41" }
 
 + Response 201 (application/json)
 
-        { "id": 3, "title": "Buy cheese and bread for breakfast." }
+        { "id": 3, "created": "11/23/2014 15:12:41" }
 
-## Note [/notes/{id}]
-A single Note object with all its details
+## Session [/session/{id}]
+A single Session object with all its details
 
 + Parameters
     + id (required, number, `1`) ... Numeric `id` of the Note to perform action with. Has example value.
