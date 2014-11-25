@@ -3,51 +3,97 @@ FORMAT: 1A
 # Weary Examiner
 This documentation describes the HTTP API available in the Weary Examiner project.
 
-# Group Sessions
-Lists and creates Debug Sessions.
+# Group Project
+A project acts as a group of Debug Sessions associated with the same project. This helps identify sessions, and provides
+a context for creating new sessions.
 
-## Session Collection [/session]
+Weary Examiner is not supposed to be the main resource for information on a project. Rather, it extends other, existing resources.
 
-### List all Sessions [GET]
-+ Response 200 (application/json)
-
-        [{
-          "id": 1, "created": "11/05/2014 13:48:27"
-        }, {
-          "id": 2, "title": "Pick-up posters from post-office"
-        }]
-
-### Create a Session [POST]
-+ Request (application/json)
-
-    + Header
-        
-            Bearer: a83e4586faed9348df9238
-    
-    + Body
-
-            { "created": "11/23/2014 15:12:41" }
-
-+ Response 201 (application/json)
-
-        { "id": 3, "created": "11/23/2014 15:12:41" }
-
-## Session [/session/{id}]
-A single Session object with all its details
+## Project [/project/{id}]
 
 + Parameters
-    + id (required, number, `1`) ... Numeric `id` of the Note to perform action with. Has example value.
+    + id (required, string, `pn4r`) ... ID of the project
 
-### Retrieve a Note [GET]
-+ Response 200 (application/json)
-
-    + Header
-
-            X-My-Header: The Value
++ Model
 
     + Body
+    
+            {
+                "id": "pn4r",
+                "user": "averagejoe",
+                "name": "Polyhedral Dice Roller"
+                "img": "//upload.wikimedia.org/wikipedia/commons/thumb/3/33/8_sided_dice.jpg/107px-8_sided_dice.jpg",
+                "sessions": [{"id": "z32c"}]
+            }
 
-            { "id": 2, "title": "Pick-up posters from post-office" }
 
-### Remove a Note [DELETE]
-+ Response 204
+### Retrieve Project Details [GET]
+
++ Response 200
+
+    [Project][]
+
++ Response 404
+
+### Edit Project Details [PATCH]
++ Request
+        
+        {
+            "name": "Polyhedral Dice Tester"
+        }
+
++ Response 200
+
+    [Project][]
+
++ Response 404
++ Response 400
+
+        {
+            "error": "PATCH Failed."
+            "retry": "False"
+        }
+
+## Project Collection [/project]
+Represents the collection of projects.
+
+### List Projects [GET]
+
++ Response 200
+
+            {
+                "user":"averagejoe",
+                "projects": [{
+                    "id": "pn4r",
+                    "name": "Polyhedral Dice Roller"
+                    "img": "//upload.wikimedia.org/wikipedia/commons/thumb/3/33/8_sided_dice.jpg/107px-8_sided_dice.jpg"}
+            ]}
+
+# Group Sessions
+List of Debug Sessions, and information about a particular Debug Session.
+
+The user starts a debug session, and then provides a pinout config. Application flow then shifts to the logging
+APIs.
+
+The session does not need to know when logging starts. A session created date is provided to remind the user
+which sessions are from when, and to help differentiate sessions.
+
+## Session Collection [/project/{id}/sessions]
+The list of all Debug Sessions.
+
+## Session [/session/{id}]
+A single Session object.
+
++ Parameters
+    + id (required, string, `z32c`) ... ID of the session.
+
+# Group Sensor Logs
+Each Sensor Log records the values of a sensor across the entirety of a session. Sensors can 
+include analog or digital input or output from the device under test. Users are encouraged to
+get the latest pin config from the session before using these routes.
+
+## Sensor Log Collection [/session/{id}/logs]
+Represents the latest samples across all logs, and allows bulk-posting of log entries.
+
+## Sensor Log [/log/{id}]
+Represents a particular session log, or an ordered collection of samples for a particular pin.
