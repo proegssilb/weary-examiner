@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/proegssilb/weary-examiner.png?label=ready&title=Ready)](https://waffle.io/proegssilb/weary-examiner)
 weary-examiner
 ==============
 
