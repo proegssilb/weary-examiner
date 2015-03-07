@@ -1,0 +1,10 @@
+{
+  "props": {
+    "datatype": "map",
+    "n_val": 3,
+    "r": "quorum",
+    "w": "1",
+    "notfound_ok": false,
+    "basic_quorum": false
+  }
+}
