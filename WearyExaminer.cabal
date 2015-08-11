@@ -1,0 +1,13 @@
+executable         wearyExaminerServer
+  main-is:           server/src/WearyExaminer/SensorServer/Main.hs
+  hs-source-dirs:    server/src
+  build-depends:     base
+                   , snap
+
+executable          wearyExaminerGlClient
+  if flag(library-only)
+    Buildable: False
+
+  main-is:          GlClient/src/Main.hs
+  hs-source-dirs:   GlClient/src
+  build-depends:    base
